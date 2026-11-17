@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block title %}Assign Plan | Tiffino{% endblock %}{% block content %}
+<div class="card border-0 shadow-sm"><div class="card-body"><h1>Assign Subscription</h1><form method="post">{% csrf_token %}{% if form %}{{ form.as_p }}{% else %}
+<label class="form-label">User</label><select class="form-select mb-3" name="user" required>{% for item in users %}<option value="{{ item.id }}">{{ item.name }}</option>{% endfor %}</select>
+<label class="form-label">Meal plan</label><select class="form-select mb-3" name="meal_plan" required>{% for plan in meal_plans %}<option value="{{ plan.id }}">{{ plan.get_name_display }}</option>{% endfor %}</select>
+<label class="form-label">Start date</label><input type="date" class="form-control mb-3" name="start_date" required>{% endif %}<button class="btn btn-primary">Assign Plan</button></form></div></div>{% endblock %}

@@ -1,11 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends 'base.html' %}{% block title %}Managers | Tiffino{% endblock %}{% block content %}
+<div class="d-flex justify-content-between">
+    <h1>Managers</h1><a class="btn btn-primary" href="{% url 'add_manager' %}">Add Manager</a>
+</div>
+<div class="card mt-3">
+    <div class="table-responsive">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Contact</th>
+                </tr>
+            </thead>
+            <tbody>{% for manager in managers %}<tr>
+                    <td>{{ manager.name }}</td>
+                    <td>{{ manager.username }}</td>
+                    <td>{{ manager.contact }}</td>
+                </tr>{% empty %}<tr>
+                    <td colspan="3">No managers found.</td>
+                </tr>{% endfor %}</tbody>
+        </table>
+    </div>
+</div>{% endblock %}

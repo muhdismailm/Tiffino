@@ -1,0 +1,2 @@
+{% extends 'base.html' %}{% block title %}All Users | Tiffino{% endblock %}{% block content %}
+<h1>All Users</h1><div class="card mt-3"><div class="table-responsive"><table class="table mb-0"><thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Created by</th></tr></thead><tbody>{% for item in users %}<tr><td>{{ item.name }}</td><td>{{ item.username }}</td><td>{{ item.get_role_display }}</td><td>{{ item.created_by|default:"—" }}</td></tr>{% empty %}<tr><td colspan="4">No users found.</td></tr>{% endfor %}</tbody></table></div></div>{% endblock %}
