@@ -1,2 +1,23 @@
 {% extends 'base.html' %}{% block title %}My Dashboard | Tiffino{% endblock %}{% block content %}
-<h1>Hello, {{ request.user.name|default:request.user.username }}!</h1><p class="text-secondary">Welcome to your Tiffino dashboard.</p><div class="row g-3"><div class="col-md-6"><div class="card border-0 shadow-sm"><div class="card-body"><h5>Current Subscription</h5>{% if active_subscription %}<p>{{ active_subscription.meal_plan.get_name_display }}</p><p>{{ active_subscription.start_date }} – {{ active_subscription.end_date }}</p>{% else %}<p>No active subscription.</p>{% endif %}</div></div></div><div class="col-md-6"><div class="card border-0 shadow-sm"><div class="card-body"><h5>Quick Actions</h5><a class="btn btn-primary" href="{% url 'meal_selection' %}">Select Meals</a> <a class="btn btn-outline-primary" href="{% url 'leave_calendar' %}">Request Leave</a></div></div></div></div>{% endblock %}
+<h1>Hello, {{ request.user.name|default:request.user.username }}!</h1>
+<p class="text-secondary">Welcome to your Tiffino dashboard.</p>
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h5>Current Subscription</h5>{% if active_subscription %}<p>{{
+                    active_subscription.meal_plan.get_name_display }}</p>
+                <p>{{ active_subscription.start_date }} – {{ active_subscription.end_date }}</p>{% else %}<p>No active
+                    subscription.</p>{% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h5>Quick Actions</h5><a class="btn btn-primary" href="{% url 'meal_selection' %}">Select Meals</a> <a
+                    class="btn btn-outline-primary" href="{% url 'leave_calendar' %}">Request Leave</a>
+            </div>
+        </div>
+    </div>
+</div>{% endblock %}

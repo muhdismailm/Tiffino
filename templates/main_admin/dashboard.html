@@ -1,3 +1,12 @@
 {% extends 'base.html' %}{% block title %}Admin Dashboard | Tiffino{% endblock %}{% block content %}
-<h1>Main Admin Dashboard</h1><div class="row g-3 my-3">{% for label,value in dashboard_stats.items %}<div class="col-md-4"><div class="card border-0 shadow-sm"><div class="card-body"><p>{{ label }}</p><h2>{{ value }}</h2></div></div></div>{% endfor %}</div>
-<a class="btn btn-primary" href="{% url 'manager_list' %}">Manage Managers</a> <a class="btn btn-outline-primary" href="{% url 'admin_user_list' %}">View Users</a>{% endblock %}
+<h1>Main Admin Dashboard</h1>
+<div class="row g-3 my-3">{% for label,value in dashboard_stats.items %}<div class="col-md-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <p>{{ label }}</p>
+                <h2>{{ value }}</h2>
+            </div>
+        </div>
+    </div>{% endfor %}</div>
+<a class="btn btn-primary" href="{% url 'manager_list' %}">Manage Managers</a> <a class="btn btn-outline-primary"
+    href="{% url 'admin_user_list' %}">View Users</a>{% endblock %}

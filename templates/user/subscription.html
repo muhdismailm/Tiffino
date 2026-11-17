@@ -1,2 +1,10 @@
 {% extends 'base.html' %}{% block title %}My Subscription | Tiffino{% endblock %}{% block content %}
-<h1>My Subscription</h1>{% if active_subscription %}<div class="card border-0 shadow-sm"><div class="card-body"><h3>{{ active_subscription.meal_plan.get_name_display }} Plan</h3><p>Start: {{ active_subscription.start_date }}</p><p>End: {{ active_subscription.end_date }}</p><p>Status: {{ active_subscription.get_status_display }}</p>{% if active_cycle %}<p>Remaining days: <b>{{ active_cycle.remaining_days }}</b></p>{% endif %}</div></div>{% else %}<div class="alert alert-info">No active subscription.</div>{% endif %}{% endblock %}
+<h1>My Subscription</h1>{% if active_subscription %}<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <h3>{{ active_subscription.meal_plan.get_name_display }} Plan</h3>
+        <p>Start: {{ active_subscription.start_date }}</p>
+        <p>End: {{ active_subscription.end_date }}</p>
+        <p>Status: {{ active_subscription.get_status_display }}</p>{% if active_cycle %}<p>Remaining days: <b>{{
+                active_cycle.remaining_days }}</b></p>{% endif %}
+    </div>
+</div>{% else %}<div class="alert alert-info">No active subscription.</div>{% endif %}{% endblock %}

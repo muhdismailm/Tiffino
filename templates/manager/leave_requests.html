@@ -1,2 +1,32 @@
 {% extends 'base.html' %}{% block title %}Leave Requests | Tiffino{% endblock %}{% block content %}
-<h1>Leave Requests</h1><div class="card mt-3"><div class="table-responsive"><table class="table mb-0"><thead><tr><th>User</th><th>From</th><th>To</th><th>Reason</th><th>Status</th><th>Action</th></tr></thead><tbody>{% for leave in leave_requests %}<tr><td>{{ leave.user.name }}</td><td>{{ leave.from_date }}</td><td>{{ leave.to_date }}</td><td>{{ leave.reason|default:"—" }}</td><td>{{ leave.get_status_display }}</td><td>{% if leave.status == 'pending' %}<form method="post" action="{% url 'review_leave' leave.id %}">{% csrf_token %}<button class="btn btn-sm btn-success" name="status" value="approved">Approve</button> <button class="btn btn-sm btn-danger" name="status" value="rejected">Reject</button></form>{% endif %}</td></tr>{% empty %}<tr><td colspan="6">No leave requests.</td></tr>{% endfor %}</tbody></table></div></div>{% endblock %}
+<h1>Leave Requests</h1>
+<div class="card mt-3">
+    <div class="table-responsive">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>{% for leave in leave_requests %}<tr>
+                    <td>{{ leave.user.name }}</td>
+                    <td>{{ leave.from_date }}</td>
+                    <td>{{ leave.to_date }}</td>
+                    <td>{{ leave.reason|default:"—" }}</td>
+                    <td>{{ leave.get_status_display }}</td>
+                    <td>{% if leave.status == 'pending' %}<form method="post"
+                            action="{% url 'review_leave' leave.id %}">{% csrf_token %}<button
+                                class="btn btn-sm btn-success" name="status" value="approved">Approve</button> <button
+                                class="btn btn-sm btn-danger" name="status" value="rejected">Reject</button></form>{%
+                        endif %}</td>
+                </tr>{% empty %}<tr>
+                    <td colspan="6">No leave requests.</td>
+                </tr>{% endfor %}</tbody>
+        </table>
+    </div>
+</div>{% endblock %}

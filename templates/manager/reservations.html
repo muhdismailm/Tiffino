@@ -1,3 +1,33 @@
 {% extends 'base.html' %}{% block title %}Meal Requirements | Tiffino{% endblock %}{% block content %}
-<h1>Meal Requirements</h1><p class="text-secondary">Date: {{ target_date }}</p><div class="row g-3 mb-3">{% for label,count in meal_counts.items %}<div class="col-md-4"><div class="card border-0 shadow-sm"><div class="card-body">{{ label|title }}<h2>{{ count }}</h2></div></div></div>{% endfor %}</div>
-<div class="card"><div class="table-responsive"><table class="table mb-0"><thead><tr><th>User</th><th>Breakfast</th><th>Lunch</th><th>Dinner</th><th>Rejected all</th></tr></thead><tbody>{% for r in reservations %}<tr><td>{{ r.user.name }}</td><td>{{ r.breakfast|yesno:"Yes,No" }}</td><td>{{ r.lunch|yesno:"Yes,No" }}</td><td>{{ r.dinner|yesno:"Yes,No" }}</td><td>{{ r.rejected_all|yesno:"Yes,No" }}</td></tr>{% empty %}<tr><td colspan="5">No reservations found.</td></tr>{% endfor %}</tbody></table></div></div>{% endblock %}
+<h1>Meal Requirements</h1>
+<p class="text-secondary">Date: {{ target_date }}</p>
+<div class="row g-3 mb-3">{% for label,count in meal_counts.items %}<div class="col-md-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">{{ label|title }}<h2>{{ count }}</h2>
+            </div>
+        </div>
+    </div>{% endfor %}</div>
+<div class="card">
+    <div class="table-responsive">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Breakfast</th>
+                    <th>Lunch</th>
+                    <th>Dinner</th>
+                    <th>Rejected all</th>
+                </tr>
+            </thead>
+            <tbody>{% for r in reservations %}<tr>
+                    <td>{{ r.user.name }}</td>
+                    <td>{{ r.breakfast|yesno:"Yes,No" }}</td>
+                    <td>{{ r.lunch|yesno:"Yes,No" }}</td>
+                    <td>{{ r.dinner|yesno:"Yes,No" }}</td>
+                    <td>{{ r.rejected_all|yesno:"Yes,No" }}</td>
+                </tr>{% empty %}<tr>
+                    <td colspan="5">No reservations found.</td>
+                </tr>{% endfor %}</tbody>
+        </table>
+    </div>
+</div>{% endblock %}

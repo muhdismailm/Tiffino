@@ -1,2 +1,10 @@
 {% extends 'base.html' %}{% block title %}Profile | Tiffino{% endblock %}{% block content %}
-<div class="card border-0 shadow-sm"><div class="card-body"><h2>My Profile</h2><p><b>Name:</b> {{ request.user.name }}</p><p><b>Username:</b> {{ request.user.username }}</p><p><b>Contact:</b> {{ request.user.contact|default:"—" }}</p><p><b>Role:</b> {{ request.user.get_role_display }}</p></div></div>{% endblock %}
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <h2>My Profile</h2>
+        <p><b>Name:</b> {{ request.user.name }}</p>
+        <p><b>Username:</b> {{ request.user.username }}</p>
+        <p><b>Contact:</b> {{ request.user.contact|default:"—" }}</p>
+        <p><b>Role:</b> {{ request.user.get_role_display }}</p>
+    </div>
+</div>{% endblock %}
