@@ -65,7 +65,6 @@ class LeaveRequest(models.Model):
 
         # Validate date range
         if self.from_date and self.to_date:
-
             if self.from_date > self.to_date:
                 raise ValidationError(
                     "End date cannot be earlier than start date."
