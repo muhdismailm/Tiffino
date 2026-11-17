@@ -1,18 +1,148 @@
-{% extends 'base.html' %}{% block title %}Meal Selection | Tiffino{% endblock %}{% block content %}
-<div class="row justify-content-center">
-    <div class="col-lg-7">
-        <div class="card border-0 shadow-sm">
-            <div class="card-body">
-                <h1>Select Your Meals</h1>
-                <p class="text-secondary">Update your selection before 8:00 PM on the previous day.</p>
-                <form method="post">{% csrf_token %}
-                    <label class="form-label">Meal date</label><input class="form-control mb-3" type="date" name="date"
-                        value="{{ selected_date|default:'' }}" required>
-                    {% for field in form %}<div class="form-check form-switch mb-3">{{ field }} <label
-                            class="form-check-label">{{ field.label }}</label></div>{% endfor %}
-                    <button class="btn btn-primary">Save Selection</button>
-                </form>
+
+{% extends 'base.html' %}
+
+{% block title %}Meal Selection | Tiffino{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="mb-4">
+                <h2 class="fw-bold">Daily Meal Selection</h2>
+                <p class="text-secondary">
+                    Select the meals you need for your chosen date.
+                    Update your selection before 8:00 PM on the previous day.
+                </p>
             </div>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <!-- Meal Date -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                Select Meal Date
+                            </label>
+
+                            <input
+                                class="form-control"
+                                type="date"
+                                name="date"
+                                value="{{ selected_date|date:'Y-m-d' }}"
+                                min="{{ today|date:'Y-m-d' }}"
+                                required
+                            >
+                        </div>
+
+                        <hr>
+
+                        <h5 class="fw-semibold mb-3">
+                            Choose Your Meals
+                        </h5>
+
+                        <div class="row g-3">
+
+                            <!-- Breakfast -->
+                            <div class="col-md-4">
+                                <label class="card h-100 p-3 meal-option">
+                                    <div class="form-check">
+                                        <input
+                                            type="checkbox"
+                                            name="breakfast"
+                                            class="form-check-input"
+                                            {% if reservation.breakfast %}checked{% endif %}
+                                        >
+                                        <span class="form-check-label fw-semibold">
+                                            <i class="bi bi-sunrise text-warning me-2"></i>
+                                            Breakfast
+                                        </span>
+                                    </div>
+                                    <small class="text-muted mt-2">
+                                        Morning meal
+                                    </small>
+                                </label>
+                            </div>
+
+                            <!-- Lunch -->
+                            <div class="col-md-4">
+                                <label class="card h-100 p-3 meal-option">
+                                    <div class="form-check">
+                                        <input
+                                            type="checkbox"
+                                            name="lunch"
+                                            class="form-check-input"
+                                            {% if reservation.lunch %}checked{% endif %}
+                                        >
+                                        <span class="form-check-label fw-semibold">
+                                            <i class="bi bi-sun text-warning me-2"></i>
+                                            Lunch
+                                        </span>
+                                    </div>
+                                    <small class="text-muted mt-2">
+                                        Afternoon meal
+                                    </small>
+                                </label>
+                            </div>
+
+                            <!-- Dinner -->
+                            <div class="col-md-4">
+                                <label class="card h-100 p-3 meal-option">
+                                    <div class="form-check">
+                                        <input
+                                            type="checkbox"
+                                            name="dinner"
+                                            class="form-check-input"
+                                            {% if reservation.dinner %}checked{% endif %}
+                                        >
+                                        <span class="form-check-label fw-semibold">
+                                            <i class="bi bi-moon-stars text-primary me-2"></i>
+                                            Dinner
+                                        </span>
+                                    </div>
+                                    <small class="text-muted mt-2">
+                                        Evening meal
+                                    </small>
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <!-- Information -->
+                        <div class="alert alert-info mt-4 mb-4">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Unselected meals will be treated as rejected.
+                            You can reject all three meals if you do not need food that day.
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between">
+
+                            <a href="{% url 'user_dashboard' %}"
+                            class="btn btn-outline-secondary">
+                                Cancel
+                            </a>
+
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="bi bi-check-circle me-1"></i>
+                                Save Selection
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
         </div>
     </div>
-</div>{% endblock %}
+
+</div>
+
+{% endblock %}
