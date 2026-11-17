@@ -1,13 +1,126 @@
-{% extends 'base.html' %}{% block title %}Add Manager | Tiffino{% endblock %}{% block content %}
-<div class="card border-0 shadow-sm">
-    <div class="card-body">
-        <h1>Create Manager</h1>
-        <form method="post">{% csrf_token %}{% if form %}{{ form.as_p }}{% else %}
-            <label class="form-label">Name</label><input class="form-control mb-3" name="name" required><label
-                class="form-label">Username</label><input class="form-control mb-3" name="username" required><label
-                class="form-label">Contact</label><input class="form-control mb-3" name="contact"><label
-                class="form-label">Password</label><input type="password" class="form-control mb-3" name="password"
-                required>{% endif %}<button class="btn btn-primary">Create Manager</button>
-        </form>
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+
+            <!-- Page Header -->
+            <div class="mb-4">
+                <h2 class="fw-bold">Add New Manager</h2>
+                <p class="text-muted">
+                    Create a manager account and provide login credentials.
+                </p>
+            </div>
+
+            <!-- Form Card -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+
+                    <form method="POST" autocomplete="off">
+                        {% csrf_token %}
+
+                        <!-- Name -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-semibold">
+                                Full Name
+                            </label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                class="form-control"
+                                placeholder="Enter manager's full name"
+                                required
+                            >
+                        </div>
+
+                        <!-- Contact -->
+                        <div class="mb-3">
+                            <label for="contact" class="form-label fw-semibold">
+                                Contact Number
+                            </label>
+                            <input
+                                type="tel"
+                                id="contact"
+                                name="contact"
+                                class="form-control"
+                                placeholder="Enter contact number"
+                                maxlength="15"
+                                required
+                            >
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h5 class="fw-semibold mb-3">
+                            Login Credentials
+                        </h5>
+
+                        <!-- Username -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label fw-semibold">
+                                Username
+                            </label>
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                class="form-control"
+                                placeholder="Create a username"
+                                autocomplete="off"
+                                required
+                            >
+                            <div class="form-text">
+                                The manager will use this username to log in.
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-semibold">
+                                Temporary Password
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Create a temporary password"
+                                autocomplete="new-password"
+                                required
+                            >
+                            <div class="form-text">
+                                Share this password securely with the manager.
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <a href="{% url 'main_admin_dashboard' %}"
+                               class="btn btn-outline-secondary">
+                                Cancel
+                            </a>
+
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="bi bi-person-plus me-1"></i>
+                                Create Manager
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
     </div>
-</div>{% endblock %}
+
+</div>
+
+{% endblock %}

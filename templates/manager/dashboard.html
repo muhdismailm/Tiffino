@@ -1,12 +1,259 @@
-{% extends 'base.html' %}{% block title %}Manager Dashboard | Tiffino{% endblock %}{% block content %}
-<h1>Manager Dashboard</h1>
-<div class="row g-3 my-3">{% for label,value in dashboard_stats.items %}<div class="col-md-3">
-        <div class="card border-0 shadow-sm">
-            <div class="card-body">{{ label }}<h2>{{ value }}</h2>
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid py-4 px-lg-5">
+
+    <!-- Dashboard Header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Manager Dashboard</h2>
+            <p class="text-muted mb-0">
+                Welcome, {{ request.user.name }}! Manage your hostel mess operations here.
+            </p>
+        </div>
+
+        <div class="mt-3 mt-md-0">
+            <span class="badge bg-primary px-3 py-2">
+                Manager
+            </span>
+        </div>
+    </div>
+
+
+    <!-- Statistics Cards -->
+    <div class="row g-3 mb-4">
+
+        <!-- Total Users -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1">Total Users</p>
+                            <h3 class="fw-bold mb-0">{{ total_users }}</h3>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 text-primary rounded p-3">
+                            <i class="bi bi-people fs-3"></i>
+                        </div>
+                    </div>
+                    <a href="{% url 'manager_users' %}"
+                       class="small text-decoration-none mt-3 d-inline-block">
+                        View users →
+                    </a>
+                </div>
             </div>
         </div>
-    </div>{% endfor %}</div>
-<div class="d-flex flex-wrap gap-2"><a class="btn btn-primary" href="{% url 'manager_users' %}">Users</a><a
-        class="btn btn-outline-primary" href="{% url 'manager_subscriptions' %}">Subscriptions</a><a
-        class="btn btn-outline-primary" href="{% url 'manager_reservations' %}">Meal Requirements</a><a
-        class="btn btn-outline-primary" href="{% url 'manager_leave_requests' %}">Leave Requests</a></div>{% endblock %}
+
+        <!-- Active Subscriptions -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1">Active Subscriptions</p>
+                            <h3 class="fw-bold mb-0">{{ active_subscriptions }}</h3>
+                        </div>
+                        <div class="bg-success bg-opacity-10 text-success rounded p-3">
+                            <i class="bi bi-card-checklist fs-3"></i>
+                        </div>
+                    </div>
+                    <a href="{% url 'manager_subscriptions' %}"
+                       class="small text-decoration-none mt-3 d-inline-block">
+                        View subscriptions →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Leaves -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1">Pending Leave Requests</p>
+                            <h3 class="fw-bold mb-0">{{ pending_leaves }}</h3>
+                        </div>
+                        <div class="bg-warning bg-opacity-10 text-warning rounded p-3">
+                            <i class="bi bi-calendar-x fs-3"></i>
+                        </div>
+                    </div>
+                    <a href="{% url 'manager_leave_requests' %}"
+                       class="small text-decoration-none mt-3 d-inline-block">
+                        Review requests →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tomorrow's Meals -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="text-muted mb-1">Tomorrow's Meal Reservations</p>
+                            <h3 class="fw-bold mb-0">
+                                {{ breakfast_count|add:lunch_count|add:dinner_count }}
+                            </h3>
+                        </div>
+                        <div class="bg-info bg-opacity-10 text-info rounded p-3">
+                            <i class="bi bi-egg-fried fs-3"></i>
+                        </div>
+                    </div>
+                    <a href="{% url 'manager_reservations' %}"
+                       class="small text-decoration-none mt-3 d-inline-block">
+                        View meal requirements →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Tomorrow's Meal Requirements -->
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-header bg-white py-3">
+            <h5 class="fw-bold mb-0">
+                <i class="bi bi-calendar-event me-2 text-primary"></i>
+                Tomorrow's Meal Requirements
+            </h5>
+            <small class="text-muted">
+                {{ tomorrow|date:"d M Y" }}
+            </small>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-light text-center">
+                        <i class="bi bi-sunrise text-warning fs-2"></i>
+                        <h6 class="mt-2 text-muted">Breakfast</h6>
+                        <h3 class="fw-bold">{{ breakfast_count }}</h3>
+                        <small class="text-muted">Reservations</small>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-light text-center">
+                        <i class="bi bi-sun text-warning fs-2"></i>
+                        <h6 class="mt-2 text-muted">Lunch</h6>
+                        <h3 class="fw-bold">{{ lunch_count }}</h3>
+                        <small class="text-muted">Reservations</small>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="p-3 rounded bg-light text-center">
+                        <i class="bi bi-moon-stars text-primary fs-2"></i>
+                        <h6 class="mt-2 text-muted">Dinner</h6>
+                        <h3 class="fw-bold">{{ dinner_count }}</h3>
+                        <small class="text-muted">Reservations</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Quick Actions -->
+    <div class="mb-3">
+        <h5 class="fw-bold">Quick Actions</h5>
+        <p class="text-muted">Manage your daily operations.</p>
+    </div>
+
+    <div class="row g-3">
+
+        <!-- Add User -->
+        <div class="col-lg-3 col-md-6">
+            <a href="{% url 'add_user' %}"
+               class="text-decoration-none">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <i class="bi bi-person-plus text-primary fs-2"></i>
+                        <h6 class="fw-bold mt-3">Add New User</h6>
+                        <p class="text-muted small mb-0">
+                            Create an account for a new hostel mess user.
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Manage Users -->
+        <div class="col-lg-3 col-md-6">
+            <a href="{% url 'manager_users' %}"
+               class="text-decoration-none">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <i class="bi bi-people text-success fs-2"></i>
+                        <h6 class="fw-bold mt-3">Manage Users</h6>
+                        <p class="text-muted small mb-0">
+                            View and manage your registered users.
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Subscriptions -->
+        <div class="col-lg-3 col-md-6">
+            <a href="{% url 'manager_subscriptions' %}"
+               class="text-decoration-none">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <i class="bi bi-card-list text-info fs-2"></i>
+                        <h6 class="fw-bold mt-3">Subscriptions</h6>
+                        <p class="text-muted small mb-0">
+                            Assign meal plans and manage subscription cycles.
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Meal Requirements -->
+        <div class="col-lg-3 col-md-6">
+            <a href="{% url 'manager_reservations' %}"
+               class="text-decoration-none">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <i class="bi bi-egg-fried text-warning fs-2"></i>
+                        <h6 class="fw-bold mt-3">Meal Requirements</h6>
+                        <p class="text-muted small mb-0">
+                            Check daily breakfast, lunch and dinner counts.
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Leave Requests -->
+        <div class="col-lg-3 col-md-6">
+            <a href="{% url 'manager_leave_requests' %}"
+               class="text-decoration-none">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <i class="bi bi-calendar-check text-danger fs-2"></i>
+                        <h6 class="fw-bold mt-3">Leave Requests</h6>
+                        <p class="text-muted small mb-0">
+                            Approve or reject monthly user leave requests.
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
